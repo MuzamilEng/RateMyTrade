@@ -40,41 +40,44 @@ router.post('/create-checkout-session', async (req, res) => {
       res.json({ id: session.id });
     }
   });
+router.use(express.raw({ type: 'application/json' }));
 
-  router.post('/webhook', async (req, res) => {
-    const payload = req.body;
-    const sig = req.headers['stripe-signature'];
-  
-    let event;
-  
-    try {
-      // Verify the webhook signature
-      event = stripe.webhooks.constructEvent(payload, sig, 'whsec_18688cf5bc59c86e0b815de8b526ce401d2d0a408888d5b9e5870c34424fb2d7');
-    } catch (err) {
-      console.error('Webhook signature verification failed.', err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-  
-    // Handle the event
-    switch (event.type) {
-      case 'checkout.session.completed':
-        const session = event.data.object;
-        const sessionID = session.id;
-        console.log(sessionID)
-  
-        // Update payment status in your booking schema
-        await updatePaymentStatus(sessionID);
-  
-        console.log('Payment status updated for session:', sessionID);
-        break;
-  
-      default:
-        // Unexpected event type
-        console.log(`Unhandled event type: ${event.type}`);
-    }
-  
-    res.status(200).end();
-  });
+router.post('/webhook',express.raw({type: 'application/json'}), async (req, res) => {
+  const endpointSecret = "whsec_18688cf5bc59c86e0b815de8b526ce401d2d0a408888d5b9e5870c34424fb2d7";
+  const payload = JSON.stringify(req.body, null, 2)
+  console.log(payload)
+  const sig = req.headers['stripe-signature'];
+
+  let event;
+
+  try {
+    // Verify the webhook signature
+    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+  } catch (err) {
+    console.error('Webhook signature verification failed.', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'checkout.session.completed':
+      const session = event.data.object;
+      const sessionID = session.id;
+      console.log(sessionID)
+
+      // Update payment status in your booking schema
+      await updatePaymentStatus(sessionID);
+
+      console.log('Payment status updated for session:', sessionID);
+      break;
+
+    default:
+      // Unexpected event type
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+
+  res.status(200).end();
+});
 
 //   router.post('/update-payment-status', async (req, res) => {
 //     const { sessionID } = req.body;

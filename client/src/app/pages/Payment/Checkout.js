@@ -57,6 +57,10 @@ const Checkout = () => {
 
     if (result.error) {
       console.error(result.error.message);
+    } else {
+      if(result.paymentIntent.status === "succeeded") {
+        console.log("Success")
+      }
     }
     // const updatePaymentStatus = async (sessionID) => {
     //   try {
