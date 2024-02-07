@@ -5,23 +5,24 @@ const { authenticateJWT } = require('../middleware/authMiddleware');
 const passport = require('passport');
 const cloudinary = require('../cloudinary.config');
 
+
 const signUp = async (req, res) => {
   try {
     const { firstName, lastName, category, password, email, phoneNumber } = req.body;
-    console.log(req.body, "namesvgfdt")
     let mainImageURL;
     // Check if the email is already taken
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already exists' });
     }
-
     if (req.file) {
       const mainImage = req.file;
+      console.log(mainImage, "mainImage", "file");
       const mainImageResult = await cloudinary.uploader.upload(mainImage.path, {
         folder: 'Assets',
       });
       mainImageURL = mainImageResult.secure_url;
+      console.log(mainImageURL, "mainImageURL");
     }
 
     // Hash the password
@@ -40,19 +41,13 @@ const signUp = async (req, res) => {
     });
 
     const savedUser = await newUser.save();
-
-    const responseObj = {
-      ...savedUser._doc,
-    }
-    if (mainImageURL) {
-      responseObj.mainImage = mainImageURL;
-    }
-
-
-    res.status(201).json(responseObj);
+    res.status(201).json({
+      success:true,
+      user: savedUser
+    });
   } catch (error) {
-    console.error('Error during registration:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.log(error, "error aa");
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -72,7 +67,7 @@ const login = (req, res, next) => {
     });
 
     // Send the token in the response
-    return res.json({ token });
+    return res.json({ user:user });
   })(req, res, next);
 };
 
