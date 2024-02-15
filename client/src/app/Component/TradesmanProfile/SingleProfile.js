@@ -64,23 +64,22 @@ const SingleProfile = () => {
         <main className="flex justify-around  w-full p-[2vw] ">
           <div className="  w-full max-w-[50vw] ">
             <h1 className="text-[1.5vw] font-bold">
-              Lorem ipsum dolor sit amet, consectetur adipisicing eli quo?
+              i will be your {data?.tradeType}
             </h1>
             <div className=" flex gap-[1vw] w-full -ml-[1vw]">
-              <div className="w-full max-w-[10vw]">
+              <div className="w-full max-w-[10vw] h-[10vw]">
                 <img
-                  src="/img/c1.png"
+                  src={data?.user?.image}
                   alt="profile image"
-                  className="w-full  rounded-full mt-[3vw]"
+                  className="w-full h-full rounded-full mt-[3vw]"
                 />
               </div>
               <div>
                 <h1 className="font-medium mt-[5vw] w-full text-[1.5vw]">
-                  {data?.username}
+                  {data?.user?.firstName}
                 </h1>
                 <p className="text-[1vw] w-full">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Optio, tempora!
+                {data?.location}
                 </p>
                 <button className="bg-transparent border-[1px] border-solid border-yellow-700 p-[0.4vw] mt-[1vw] rounded-md transition-all duration-200 hover:bg-yellow-700 hover:shadow-lg hover:text-white text-[1vw]">
                   contact me
@@ -89,7 +88,7 @@ const SingleProfile = () => {
             </div>
             <div className="w-full mt-[2vw]">
               <h1 className="font-medium text-[1.5vw]">
-                Lorem ipsum dolor sit amet.
+                Description
               </h1>
               <p className="text-[1vw] w-full">
                 {data?.description}
@@ -136,9 +135,9 @@ const SingleProfile = () => {
         <div className="  w-[100vw] pb-[3vw] mt-[5vw]">
           <Slider {...settings}>
             {arr.map((elem, i) => (
-              <div className=" h-[25vw] w-full m-auto">
+              <div className=" h-[25vw] w-full m-auto" key={i}>
                 <img
-                  src={elem}
+                  src={elem ? elem : '/images/tradesman.avif'}
                   alt="gig images"
                   className="w-[70vw] object-cover m-auto  rounded-md"
                   key={i}

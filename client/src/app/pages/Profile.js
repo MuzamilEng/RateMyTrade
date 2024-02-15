@@ -24,7 +24,6 @@ const Profile = () => {
 
   const { handleSubmit, control, formState: { errors }, setValue, reset,getValues } = useForm({
     defaultValues: {
-      username:"",
       tradeType: "",
       hourlyRate: "" || 0,
       phoneNumber: "",
@@ -63,7 +62,6 @@ const Profile = () => {
     const formData = new FormData();
    try{
     formData.append('userId', loggedUserId?.user._id);
-    formData.append('username', tradesManProfile?.username);
     formData.append('tradeType', tradesManProfile?.tradeType);
     formData.append('location', tradesManProfile?.location);
     formData.append('phoneNumber', tradesManProfile?.phoneNumber);
@@ -93,7 +91,6 @@ const Profile = () => {
   
     setCoordinates({ ...coordinates, lat, lng });
   }, [searchedLocation]);
-  console.log(coordinates, "coordinates");
 
   return (
     <div className="w-full h-full">

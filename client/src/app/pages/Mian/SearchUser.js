@@ -3,6 +3,7 @@ import { useGlobalContext } from "../../UserContext/UserContext";
 import axios from "axios";
 import { Link, useSearchParams } from "react-router-dom";
 import Layout from "../../Layout/Layout";
+import TradesmanCard from "../../Component/Card/TradesmanCard";
 
 const SearchUser = () => {
   const { query } = useGlobalContext();
@@ -29,26 +30,10 @@ const SearchUser = () => {
     <div>
       <Layout>
       <div className="grid grid-cols-4 place-content-center">
-        {arr?.data?.data.map((elem) => (
-          <div
-            key={elem._id}
-            className="text-vw w-full max-w-[20vw] shadow-lg rounded-md flex flex-col items-center p-[3vw] gap-[1.5vw] justify-center"
-          >
-            <img
-              src={elem.image ? elem.image : "/img/man2.jpg"}
-              alt="profileImage"
-              className="w-full max-w-[8vw] rounded-full h-[8vw]"
-            />
-            <h1 className="font-semibold text-center text-[1.5vw]">
-              {elem.username}
-            </h1>
-            <p>{elem.occupation}</p>
-            <Link to={`/dynamicProfile/${elem._id}`}>
-              <button className="bg-orange-500 text-white p-[0.9vw] mt-[2vw] rounded-full hover:bg-orange-600 hover:text-white transition  duration-300 shadow-md">
-                view profile
-              </button>
-            </Link>
-          </div>
+        {arr?.data?.data.map((elem, index) => (
+          <main key={index}>
+          <TradesmanCard key={elem._id} username={elem?.user?.firstName} image={elem?.user?.image} occupation={elem?.tradeType} id={elem?._id} />
+        </main>
         ))}
       </div>
       </Layout>

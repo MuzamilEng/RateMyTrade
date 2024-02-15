@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
-import { useGetAllTradesmenQuery, useGetTrademanByEmailQuery } from '../store/storeApi';
+import { useGetAllTradesmenQuery } from '../store/storeApi';
 import {useNavigate} from "react-router-dom"
 import axios from "axios";
 
@@ -7,7 +7,6 @@ const UserContext = createContext();
 export const useGlobalContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const {data: email} = useGetTrademanByEmailQuery()
   const [userInfo, setUserInfo] = useState({firstName: "",image: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
   const [content, setContent] = useState([]);
   const [tradesManProfileId, setTradesManProfileId] = useState(null)
@@ -17,7 +16,6 @@ export const UserProvider = ({ children }) => {
   const [tradesmanProfileDetails, setTradesmanProfileDetails] = useState(null);
   const [userDetails, setUserDetails] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",});
   const [tradesManProfile, setTradesManProfile] = useState({
-    username:"",
     tradeType: "",
     location: "",
     phoneNumber: null,

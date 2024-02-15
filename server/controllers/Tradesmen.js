@@ -1,23 +1,16 @@
 const TrademanSchema = require('../models/Tradesmen');
-const cloudinary = require('../cloudinary.config')
+const cloudinary = require('../cloudinary.config');
+const User = require('../models/User');
 
 const createTrademanProfile = async (req, res) => {
-  const userId = req.user._id;
   try {
-    const {
-      username,
-      tradeType,
-      location,
-      phoneNumber,
-      description,
-      houtlyRate,
-      lat, lng
-   
-    } = req.body;
+    const { tradeType, location, phoneNumber, description, houtlyRate, lat, lng} = req.body;
+    const userId = req?.body?.userId
+      const user = await User.findById(userId);
+      console.log(user, 'user', userId);
+    console.log(req.body, 'req.body');
     const parsedLat = Number(lat);
     const parsedLng = Number(lng);
-    console.log(typeof parsedLat, typeof parsedLng, "let, lng");
-    console.log(req.body, "body");
     let mainImageURL;
 
     // Handle main image update
@@ -40,7 +33,7 @@ const createTrademanProfile = async (req, res) => {
 
     for (let i = 1; i <= 3; i++) {
       const gigImageField = `gigImage${i}`;
-      console.log(gigImageField, 'gigImageField');
+      // console.log(gigImageField, 'gigImageField');
 
       if (req.files && req.files[gigImageField]) {
         const gigImage = req.files[gigImageField][0];
@@ -52,8 +45,7 @@ const createTrademanProfile = async (req, res) => {
     }
 
     const newContent = new TrademanSchema({
-      userId,
-      username,
+      user: user?._id,
       tradeType,
       location,
       phoneNumber,
@@ -84,7 +76,19 @@ const createTrademanProfile = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+// Get a single trademan by ID
+const getTrademanProfileById = async (req, res) => {
+  try {
+    const profile = await TrademanSchema.findById(req.params.id).populate('user').exec();
+    console.log(profile, "Trademan profile");
+    if (!profile) {
+      return res.status(404).json({ error: 'profile not found' });
+    }
+    res.status(200).json(profile);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 const updateTrademanProfile = async (req, res) => {
   try {
@@ -196,25 +200,14 @@ const updateTrademanProfile = async (req, res) => {
 // Get all trademans
 const getAllTradesmenProfiles = async (req, res) => {
   try {
-    const profiles = await TrademanSchema.find().populate("User");
+    const profiles = await TrademanSchema.find().populate("user");
     
-    res.status(200).json({profiles:profiles});
+    res.status(200).json(profiles);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-// Get a single trademan by ID
-const getTrademanProfileById = async (req, res) => {
-  try {
-    const profile = await TrademanSchema.findById(req.params.id).populate('user').exec();
-    if (!profile) {
-      return res.status(404).json({ error: 'profile not found' });
-    }
-    res.status(200).json(profile);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+
 const getTrademanProfileByEmail = async (req, res) => {
   const {email} = req.query;
   console.log(req.query, 'req.query');
@@ -317,8 +310,8 @@ const searchTrademan = async(req,res)=>{
       console.log(searchQuery);
     }
     // search by gategory 
-    if (query.occupation) {
-      searchQuery.occupation = { $regex: new RegExp(query.occupation, 'i') };
+    if (query.tradeType) {
+      searchQuery.tradeType = { $regex: new RegExp(query.tradeType, 'i') };
       console.log(searchQuery);
     }
     // search by price o
@@ -326,7 +319,7 @@ const searchTrademan = async(req,res)=>{
      searchQuery.hourlyRate = { $lte: parseFloat(query.maxhourlyRate), $gte: parseFloat(query.minhourlyRate) };
      console.log(searchQuery);
     }
-    const results = await TrademanSchema.find(searchQuery);
+    const results = await TrademanSchema.find(searchQuery).populate('user');
     res.status(200).json({
       success:true,
       data: results

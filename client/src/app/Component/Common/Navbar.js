@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className='ml-[4vw] flex items-start'>
     {navData?.map((item, index) => {
         return (
-            <div className='ml-[2vw]'>
+            <div className='ml-[2vw]' key={index}>
             <p key={index} className='cursor-pointer '>
                 <Link className='text-vw font-medium hover:text-gray-700' to={item.url}>{item.title}</Link>
             </p>

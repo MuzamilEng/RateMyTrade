@@ -14,7 +14,7 @@ import ServiceCard from "../Component/Card/ServiceCard";
 import { servicesCards } from "../Data";
 
 const ProfileCards = () => {
-  let { data, isLoading, isError } = useGetAllTradesmenQuery();
+  let { data:tradesmanProfile, isLoading, isError } = useGetAllTradesmenQuery();
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -22,7 +22,7 @@ const ProfileCards = () => {
   if (isError) {
     return <h1>{isError.message}</h1>;
   }
-console.log("hyby",data)
+console.log("hyby",tradesmanProfile)
   const CustomPrevArrow = (props) => (
     <span {...props} className="text-vw text-black absolute cursor-pointer top-[8vw] left-0vw z-50">
     <FontAwesomeIcon icon={faArrowLeft} className='text-2vw text-black  rounded-full hover:bg-gray-100 bg-white p-[0.7vw] text-center' />
@@ -39,15 +39,17 @@ const settings = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <Cust
     <Layout>
     <main className="overflow-x-hidden">
       <Form />
-      <div className="pl-2vw">
+      <main className="pl-2vw">
       <div className="grid w-full gap-vw m-vw  grid-cols-1">
       <Slider {...settings}>
-      {data?.profiles?.map((card) => (
-        <TradesmanCard key={card._id} username={card?.username} image={card?.image} occupation={card?.tradeType} id={card._id} />
+      {tradesmanProfile?.map((card , index) => (
+        <main key={index}>
+          <TradesmanCard key={card._id} username={card?.user?.firstName} image={card?.user?.image} occupation={card?.tradeType} id={card._id} />
+        </main>
       ))}
       </Slider>
       </div>
-      </div>
+      </main>
       <main className="w-full p-2vw">
         <h1 className="text-[1.5vw] font-medium italic">Chechout the best trending services</h1>
         <div className="pl-2vw">

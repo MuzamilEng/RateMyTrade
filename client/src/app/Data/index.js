@@ -238,7 +238,7 @@ export const handymanFooter =[
   export const advancedSearch = [
     {
       label: "Occupation",
-      name: "occupation",
+      name: "tradeType",
       type: "select",
       placeholder: "Occupation",
       options: [
@@ -268,15 +268,6 @@ export const handymanFooter =[
   export const tradesmanProfileForm = [
     {
       type:"text",
-      name:"username",
-      lable:"Username",
-      placeholder:"username",
-      rules: {
-        required: 'username is required',
-      }
-    },
-    {
-      type:"text",
       name:"tradeType",
       lable:"Trade Type",
       placeholder:"Trade Type",
@@ -303,15 +294,6 @@ export const handymanFooter =[
       }
     },
     {
-      type:"textarea",
-      name:"description",
-      lable:"Trade Description",
-      placeholder:"Trade Description",
-      rules: {
-        required: 'Trade Description is required',
-      }
-    },
-    {
       type:"number",
       name:"hourlyRate",
       lable:"Hourly Rate",
@@ -320,6 +302,16 @@ export const handymanFooter =[
         required: 'Hourly Rate is required',
       }
     },
+    {
+      type:"textarea",
+      name:"description",
+      lable:"Trade Description",
+      placeholder:"Trade Description",
+      rules: {
+        required: 'Trade Description is required',
+      }
+    },
+   
   ]
 
 export const howItWorks = [

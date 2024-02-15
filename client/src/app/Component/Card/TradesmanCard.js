@@ -3,19 +3,25 @@ import { Link } from "react-router-dom";
 
 function TradesmanCard({ id,image, username, occupation }) {
   return (
-    <Link to={`/dynamicProfile/${id}`}>
+  
         <div className="projectCard m-vw">
-      <img src={image ? image : '/img/man.png'}  alt="" />
+      <img src={image ? image : '/img/man.png'} className="h-[10vw]" alt="" />
       <div className="info">
         <img src={image ? image : '/img/man.png'} alt="" />
         <div className="texts">
           <h2>{occupation}</h2>
           <span className="text-vw">{username}</span>
         </div>
-        {/* <button className="text-vw p-0.5vw bg-blue-500 rounded-md " onClick={handleSendMessage}>Send Message</button> */}
       </div>
+        <div className="row-center w-full">
+        <Link to={`/dynamicProfile/${id}`}>
+        <button className="text-vw p-0.5vw m-vw bg-amber-500 text-white rounded-md ">View Profile</button>
+       </Link>
+       <Link to={`/dynamicProfile/${id}`}>
+        <button className="text-vw p-0.5vw m-vw bg-amber-500 text-white rounded-md ">Book Now</button>
+       </Link>
+        </div>
     </div>
-    </Link>
   );
 }
 export default TradesmanCard;
