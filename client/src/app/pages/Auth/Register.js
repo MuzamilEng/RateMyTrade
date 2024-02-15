@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../store/storeApi";
+import { ToastContainer  } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
 
+  const navigate  =  useNavigate();
   const [userInfo,  setUserInfo] = useState({
     firstName: "",
     lastName: "",
@@ -14,7 +17,6 @@ const Register = () => {
     confirmPassword: "",
     image:""
   });
-  // const [userInfo, setUserInfo] = useState({})
 
   const [errors, setErrors] = useState({
     firstName: "",
@@ -25,18 +27,8 @@ const Register = () => {
     phone: ""
   });
   const [addUser,{isLoading,isError}] = useAddUserMutation()
-
   const [uploadedImage, setUploadedImage] = useState("");
 
-
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //       setUserInfo({ ...userInfo, [e.target.name]: file }); // Set image as an object with public_id and url: file });
-  //     const imageURL = URL.createObjectURL(file);
-  //     setSelectedImageURL(imageURL);
-  //   }
-  // };
   const handleImageUpload = (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -113,17 +105,6 @@ const [isCheckboxChecked, setCheckboxChecked] = useState(false);
       newErrors.confirmPassword = "Passwords do not match";
       isValid = false;
     }
-
-    // Validate phone
-    // if (userInfo.phoneNumber.trim() === "") {
-    //   newErrors.phoneNumber = " ";
-    //   isValid = false;
-    // } else if (!isValidPhone(userInfo.phone)) {
-    //   newErrors.phone = "Phone is not valid format";
-    //   isValid = false;
-    // }
-
-
     setErrors(newErrors);
     return isValid;
   };
@@ -132,12 +113,8 @@ const [isCheckboxChecked, setCheckboxChecked] = useState(false);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/;
     return emailRegex.test(email);
   };
-  // const isValidPhone = (phone) => {
-  //   const phoneNumberRegex = /^\d{4}[-.\s]?\d{3}\d{4}$/;
 
-  //   return phoneNumberRegex.test(phone);
-  // };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     if(userInfo?.image){
@@ -147,13 +124,16 @@ const [isCheckboxChecked, setCheckboxChecked] = useState(false);
     formData.append("lastName", userInfo?.lastName);
     formData.append("email", userInfo?.email);
     formData.append("password", userInfo?.password);
-    // formData.append("confirmPassword", formData.confirmPassword);
     formData.append("phoneNumber", userInfo?.phoneNumber);
     formData.append("category", userInfo?.category);
 
     if (validateForm()) {
     console.log(userInfo);
-    addUser(formData);
+    const response = await addUser(formData);
+    if (response.data){
+      navigate('/login');
+    }
+
     }else {
       console.log(userInfo, uploadedImage)
     }
@@ -161,6 +141,7 @@ const [isCheckboxChecked, setCheckboxChecked] = useState(false);
   }
   return (
     <section class="bg-gray-50">
+      {/* <ToastContainer /> */}
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
         <div class="md:w-1/2 bg-white rounded-lg shadow md:mt-4 mb-4 sm:w-1/2 xl:p-0 ">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">

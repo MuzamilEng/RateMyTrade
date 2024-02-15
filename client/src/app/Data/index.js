@@ -311,6 +311,15 @@ export const handymanFooter =[
         required: 'Trade Description is required',
       }
     },
+    {
+      type:"number",
+      name:"hourlyRate",
+      lable:"Hourly Rate",
+      placeholder:"enter hourly rate",
+      rules: {
+        required: 'Hourly Rate is required',
+      }
+    },
   ]
 
 export const howItWorks = [

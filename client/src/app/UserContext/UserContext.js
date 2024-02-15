@@ -22,6 +22,7 @@ export const UserProvider = ({ children }) => {
     location: "",
     phoneNumber: null,
     description: "",
+    hourlyRate: 0,
   image:"",
     gigImage1:'',
     gigImage2:'',
@@ -47,35 +48,7 @@ const [isLogedUser,setLogedUser] = useState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
   
-  // console.log(user, "user1234");
-  
 
-  // ----------------------------------------------------------------
-
-
-  const fetchTradesmanProfile = async () => {
-    try {
-      const result = await axios.get(`http://localhost:5000/api/v1/tradesman/getProfile?email=${user?.email}`);
-      setTradesManProfileId(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  // console.log(tradesManProfileId, "1id details");
-  
-  useEffect(() => {
-    if(user){
-    fetchTradesmanProfile();
-    }
-    setTradesManProfileId(user?.id)
-  }, [user]);
-  // useEffect(() => {
-  //   if(tradesManProfiles){
-  //     setTradesmanProfiles(tradesManProfiles)
-  //   }
-  // }, [tradesManProfiles])
-  // console.log(tradesmanProfiles, "tradesmanProfiles");
-  ;
   useEffect(()=> {
     setTradesmanProfileDetails(tradesmanProfileDetails)
   }, [tradesmanProfileDetails])

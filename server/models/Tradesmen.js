@@ -6,13 +6,13 @@ const tradesMenSchema = new mongoose.Schema({
   username:{
     type:String
   },
+  houtlyRate: Number,
   lat: Number, 
   lng:Number,
   tradeType: String,
   location:String,
   phoneNumber: Number,
   description: String,
-   
     image:{
       type:String
     },

@@ -2,6 +2,7 @@ const TrademanSchema = require('../models/Tradesmen');
 const cloudinary = require('../cloudinary.config')
 
 const createTrademanProfile = async (req, res) => {
+  const userId = req.user._id;
   try {
     const {
       username,
@@ -9,6 +10,7 @@ const createTrademanProfile = async (req, res) => {
       location,
       phoneNumber,
       description,
+      houtlyRate,
       lat, lng
    
     } = req.body;
@@ -50,11 +52,13 @@ const createTrademanProfile = async (req, res) => {
     }
 
     const newContent = new TrademanSchema({
+      userId,
       username,
       tradeType,
       location,
       phoneNumber,
       description,
+      houtlyRate,
       lat:parsedLat, lng:parsedLng,
      image:mainImageURL,
       gigImage1: gigImages[0],
@@ -202,7 +206,7 @@ const getAllTradesmenProfiles = async (req, res) => {
 // Get a single trademan by ID
 const getTrademanProfileById = async (req, res) => {
   try {
-    const profile = await TrademanSchema.findById(req.params.id);
+    const profile = await TrademanSchema.findById(req.params.id).populate('user').exec();
     if (!profile) {
       return res.status(404).json({ error: 'profile not found' });
     }

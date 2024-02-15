@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const {tradesManProfile,setTradesManProfile} = useGlobalContext()
+  const loggedUserId = JSON.parse(localStorage.getItem('tokenabc'));
   const [searchedLocation, setSearchedLocation] = useState(null)
   const navigate = useNavigate()
   const [data, setData] = useState({});
@@ -25,6 +26,7 @@ const Profile = () => {
     defaultValues: {
       username:"",
       tradeType: "",
+      hourlyRate: "" || 0,
       phoneNumber: "",
       description: "",
       lat: coordinates?.lat || 0, 
@@ -60,10 +62,12 @@ const Profile = () => {
   const onSubmit = (data) => {
     const formData = new FormData();
    try{
+    formData.append('userId', loggedUserId?.user._id);
     formData.append('username', tradesManProfile?.username);
     formData.append('tradeType', tradesManProfile?.tradeType);
     formData.append('location', tradesManProfile?.location);
     formData.append('phoneNumber', tradesManProfile?.phoneNumber);
+    formData.append('hourlyRate', tradesManProfile?.hourlyRate)
     formData.append('description', tradesManProfile?.description);
     formData.append('image', tradesManProfile?.image)
     formData.append('gigImage1', tradesManProfile?.gigImage1);
