@@ -17,7 +17,7 @@ function TradesmanCard({ id,image, username, occupation }) {
         <Link to={`/dynamicProfile/${id}`}>
         <button className="text-vw p-0.5vw m-vw bg-amber-500 text-white rounded-md ">View Profile</button>
        </Link>
-       <Link to={`/dynamicProfile/${id}`}>
+       <Link to={`/tradesman/book-appointment/${id}`}>
         <button className="text-vw p-0.5vw m-vw bg-amber-500 text-white rounded-md ">Book Now</button>
        </Link>
         </div>

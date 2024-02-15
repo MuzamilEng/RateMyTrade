@@ -14,6 +14,8 @@ import SingleProfile from './app/Component/TradesmanProfile/SingleProfile'
 import Navbar from './app/Component/Common/Navbar'
 import BookingForm from './app/pages/BookingForm'
 import BookingPage from './app/pages/BookingPage'
+import Checkout from './app/pages/Payment/Checkout'
+
 
 const App = () => {
   return (
@@ -30,8 +32,18 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/howitworks' element={<HowItWorks />} />
-        <Route path='/bookingForm' element={<BookingForm />} />
-        <Route path='/bookingPage' element={<BookingPage />} />
+        <Route
+          path="/tradesman/book-appointment/:id"
+          element={<BookingPage />}
+        />
+        <Route
+          path="/tradesman/book-appointment/:id/booking-form"
+          element={<BookingForm />}
+        />
+        <Route
+          path="/tradesman/book-appointment/:id/checkout"
+          element={<Checkout />}
+        />
       </Routes>
     </>
   )

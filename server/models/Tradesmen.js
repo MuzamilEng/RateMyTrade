@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const tradesMenSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  houtlyRate: Number,
+  hourlyRate: Number,
   lat: Number, 
   lng:Number,
   tradeType: String,

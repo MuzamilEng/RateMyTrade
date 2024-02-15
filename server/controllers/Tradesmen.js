@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 const createTrademanProfile = async (req, res) => {
   try {
-    const { tradeType, location, phoneNumber, description, houtlyRate, lat, lng} = req.body;
+    const { tradeType, location, phoneNumber, description, hourlyRate, lat, lng} = req.body;
     const userId = req?.body?.userId
       const user = await User.findById(userId);
       console.log(user, 'user', userId);
@@ -50,7 +50,7 @@ const createTrademanProfile = async (req, res) => {
       location,
       phoneNumber,
       description,
-      houtlyRate,
+      hourlyRate,
       lat:parsedLat, lng:parsedLng,
      image:mainImageURL,
       gigImage1: gigImages[0],
