@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "json-serializer": "^2.0.12"
+  }
+}

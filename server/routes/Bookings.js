@@ -6,8 +6,7 @@ const router = express.Router();
 
 
 //BOOK APPOINTMENT
-router.post("/book-appointment/:id", async function(req,res){
-    // console.log(req.body, "req", req.body?.userId, "userid");
+router.post("/book-appointment/:id", authenticateJWT, async function(req,res){
     try {
         const newBooking = {
             name: req.body.name,
@@ -16,12 +15,11 @@ router.post("/book-appointment/:id", async function(req,res){
             date: new Date(req.body.date),
             startTime: (req.body.startTime),
             endTime: (req.body.endTime),
-            // userId: req.user._id,
+            userId: req.user._id,
             tradesmanId: req.params.id,
             addInfo: req.body.addInfo,
             paymentStatus: 'Pending'
         };
-
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const startTime = new Date(`1970-01-01T${newBooking.startTime}`);
@@ -35,13 +33,35 @@ router.post("/book-appointment/:id", async function(req,res){
         if (newBooking.date < today) {
             return res.status(400).send(`Date cannot be before today's date`);
         }
-        var booking = new Booking(newBooking)
-        await booking.save();
-        // res.status(200).send('Booking saved successfully');
-        res.status(200).json({ bookingId: booking._id });
+        const existingBookings = await Booking.find({
+            tradesmanId: newBooking.tradesmanId,
+            date: newBooking.date,
+            $or: [
+              {
+                startTime: { $lt: newBooking.endTime },
+                endTime: { $gt: newBooking.startTime }
+              },
+              {
+                startTime: { $gte: newBooking.startTime, $lt: newBooking.endTime }
+              },
+              {
+                endTime: { $gt: newBooking.startTime, $lte: newBooking.endTime }
+              }
+            ]
+          });
+        if (existingBookings.length > 0) {
+            return res.status(400).send('Booking overlaps with existing bookings for this tradesman on this date.');
+        }
+        else {
+            var booking = new Booking(newBooking)
+            await booking.save();
+            // res.status(200).send('Booking saved successfully');
+            res.status(200).json({ bookingId: booking._id });
+        }
+
     } catch (error) {
-        console.error(error.message, "error");
-        res.status(500).send(error.message);
+        console.error(error);
+        res.status(500).send('Internal Server Error');
     }
 });
 

@@ -2,7 +2,6 @@ const express = require('express');
 
 const secretKey = 'sk_test_51NO0eJITaueKIebSG63NCL9BrtB8DKE3LretZtwB3ErDzj68x0yVhCVBx0RnKq9ujIposYRpeus0VeOfSBssMrV400ajOwtvCb'
 const stripe = require('stripe')(secretKey);
-const bodyParser = require('body-parser');
 const Booking = require('../models/Bookings');
 
 const router = express.Router();
@@ -21,7 +20,7 @@ router.post('/create-checkout-session', async (req, res) => {
           price_data: {
             currency: 'PKR',
             product_data: {
-              name: 'Tradesman Type: ' + data?.occupation
+              name: 'Tradesman Type: ' + data?.tradeType
             },
             unit_amount: totalAmount*100,
           },
@@ -40,75 +39,6 @@ router.post('/create-checkout-session', async (req, res) => {
       res.json({ id: session.id });
     }
   });
-router.use(express.raw({ type: 'application/json' }));
 
-router.post('/webhook',express.raw({type: 'application/json'}), async (req, res) => {
-  const endpointSecret = "whsec_18688cf5bc59c86e0b815de8b526ce401d2d0a408888d5b9e5870c34424fb2d7";
-  const payload = JSON.stringify(req.body, null, 2)
-  console.log(payload)
-  const sig = req.headers['stripe-signature'];
-
-  let event;
-
-  try {
-    // Verify the webhook signature
-    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-  } catch (err) {
-    console.error('Webhook signature verification failed.', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  // Handle the event
-  switch (event.type) {
-    case 'checkout.session.completed':
-      const session = event.data.object;
-      const sessionID = session.id;
-      console.log(sessionID)
-
-      // Update payment status in your booking schema
-      await updatePaymentStatus(sessionID);
-
-      console.log('Payment status updated for session:', sessionID);
-      break;
-
-    default:
-      // Unexpected event type
-      console.log(`Unhandled event type: ${event.type}`);
-  }
-
-  res.status(200).end();
-});
-
-//   router.post('/update-payment-status', async (req, res) => {
-//     const { sessionID } = req.body;
-
-//     try {
-//         const booking = await Booking.findOne({ sessionId: sessionID });
-//         if (booking) {
-//             booking.paymentStatus = 'Approved'; 
-//             await booking.save();
-//             res.json({ success: true, message: 'Payment status updated successfully' });
-//         } else {
-//             res.status(404).json({ success: false, message: 'Booking not found' });
-//         }
-//     } catch (error) {
-//         console.error("Error updating payment status:", error);
-//         res.status(500).json({ success: false, message: 'Internal Server Error' });
-//     }
-// });
-const updatePaymentStatus = async (sessionID) => {
-  try {
-    const booking = await Booking.findOne({ sessionId: sessionID });
-    if (booking) {
-      booking.paymentStatus = 'Approved';
-      await booking.save();
-      console.log('Payment status updated successfully');
-    } else {
-      console.error('Booking not found');
-    }
-  } catch (error) {
-    console.error('Error updating payment status:', error);
-  }
-};
 
   module.exports = router;

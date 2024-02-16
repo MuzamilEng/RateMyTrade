@@ -69,7 +69,7 @@ const BookingPage = () => {
             <h1 class="text-4xl font-medium text-gray-700">
               {data?.username}
             </h1>{" "}
-            <p class="font-light text-gray-600 mt-3">{data?.occupation}</p>{" "}
+            <p class="font-light text-gray-600 mt-3">{data?.tradeType}</p>{" "}
             <p class="mt-8 text-gray-500">{data?.location}</p>{" "}
             <p class="mt-2 text-gray-500">({data?.ratings}) Reviews</p>{" "}
           </div>{" "}
