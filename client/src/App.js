@@ -15,6 +15,7 @@ import Navbar from './app/Component/Common/Navbar'
 import BookingForm from './app/pages/BookingForm'
 import BookingPage from './app/pages/BookingPage'
 import Checkout from './app/pages/Payment/Checkout'
+import Chatpage from './app/pages/Message/Chatpage'
 
 
 const App = () => {
@@ -26,12 +27,14 @@ const App = () => {
         <Route path='/about' element={<About />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/usersProfile' element={<ProfileCards />} />
-        <Route path='/dynamicProfile/:id' element={<SingleProfile />} />
+        <Route path='/profile/:id' element={<SingleProfile />} />
         <Route path='/searchUser' element={<SearchUser />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/howitworks' element={<HowItWorks />} />
+        <Route path='/chat' element={<Chatpage />} />
+
         <Route
           path="/tradesman/book-appointment/:id"
           element={<BookingPage />}

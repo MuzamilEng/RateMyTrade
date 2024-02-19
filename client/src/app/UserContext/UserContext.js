@@ -1,30 +1,17 @@
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
-import { useGetAllTradesmenQuery } from '../store/storeApi';
 import {useNavigate} from "react-router-dom"
-import axios from "axios";
 
 const UserContext = createContext();
 export const useGlobalContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const [userInfo, setUserInfo] = useState({firstName: "",image: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",})
-  const [content, setContent] = useState([]);
   const [tradesManProfileId, setTradesManProfileId] = useState(null)
-  const {data: tradesManProfiles} = useGetAllTradesmenQuery();
   const [tradesmanProfiles, setTradesmanProfiles] = useState([]);
   const [searchedLocation, setSearchedLocation] = useState(null)
   const [tradesmanProfileDetails, setTradesmanProfileDetails] = useState(null);
-  const [userDetails, setUserDetails] = useState({firstName: "", lastName: "", password: "", email: "", phoneNumber: null, category: "",});
   const [tradesManProfile, setTradesManProfile] = useState({
-    tradeType: "",
-    location: "",
-    phoneNumber: null,
-    description: "",
-    hourlyRate: 0,
-  image:"",
-    gigImage1:'',
-    gigImage2:'',
-    gigImage3:''
+    tradeType: "", location: "", phoneNumber: null, description: "",
+    hourlyRate: 0,image:"", gigImage1:'', gigImage2:'', gigImage3:''
   })
 const [isLogedUser,setLogedUser] = useState()
   // ----------------------------------------------------------------
@@ -39,9 +26,12 @@ const [isLogedUser,setLogedUser] = useState()
   // console.log(userLoginInfo, 'userinfo');
   useEffect(() => {
     const userInfos = JSON.parse(localStorage.getItem("userLoginInfo"));
-    const logInUser  = JSON.parse(localStorage.getItem("tokenabc"));
+    const logInUser  = JSON.parse(localStorage.getItem("token"));
+    if(logInUser && logInUser !== undefined) {
+      setLogedUser(logInUser)
+    }
     setUser(userInfos);
-    setLogedUser(logInUser)
+    
     // if (!userInfos) navigate("/login");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
@@ -52,17 +42,12 @@ const [isLogedUser,setLogedUser] = useState()
   }, [tradesmanProfileDetails])
 
   return (
-    <UserContext.Provider value={{ content, userDetails, setUserDetails, setContent, userInfo, setUserInfo, tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
+    <UserContext.Provider value={{ tradesManProfile, setTradesManProfile, searchedLocation, setSearchedLocation,
     tradesmanProfiles, userLoginInfo, tradesmanProfileDetails, setTradesmanProfileDetails, tradesManProfileId, setTradesManProfileId,
-    selectedChat,
-    setSelectedChat,
-    user,
-    setUser,
-    notification,
-    setNotification,
-    chats,
-    setChats, query,setQuery,setTradesManProfile,tradesManProfile,isLogedUser,setLogedUser}}>
-      {children}
+    selectedChat, setSelectedChat,  user, setUser, notification, setNotification, chats,
+    setChats, query,setQuery,setTradesManProfile,tradesManProfile,isLogedUser,setLogedUser
+    }}>
+    {children}
     </UserContext.Provider>
   );
 };

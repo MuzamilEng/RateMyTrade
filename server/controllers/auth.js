@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Tradesmen = require('../models/Tradesmen');
 const { authenticateJWT } = require('../middleware/authMiddleware');
 const passport = require('passport');
 const cloudinary = require('../cloudinary.config');
@@ -52,7 +53,7 @@ const signUp = async (req, res) => {
 };
 
 const login = (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
+  passport.authenticate('local', { session: false }, async (err, user, info) => {
     if (err) {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -61,13 +62,27 @@ const login = (req, res, next) => {
       return res.status(401).json({ error: info.message });
     }
 
-    // Generate and sign a JWT token
-    const token = jwt.sign({ id: user._id, email: user.email }, 'JSONWEBTOKKENSECRETKEY!@#$%^&*()', {
-      expiresIn: '12d',
-    });
+    try {
+      // Generate and sign a JWT token
+      const token = jwt.sign({ id: user._id, email: user.email }, 'JSONWEBTOKKENSECRETKEY!@#$%^&*()', {
+        expiresIn: '12d',
+      });
 
-    // Send the token in the response
-    return res.json({ user:user });
+      // Find the associated tradesman profile using the user's ID
+      const tradesmanProfile = await Tradesmen.findOne({ user: user._id });
+      console.log(tradesmanProfile, "profile here");
+
+      // If a tradesman profile is found, populate it
+      if (tradesmanProfile) {
+        await tradesmanProfile.populate('user').execPopulate();
+      }
+
+      // Send the token, user details, and tradesman profile (if available) in the response
+      return res.json({ token, user, tradesmanProfile });
+    } catch (error) {
+      console.error('Error retrieving tradesman profile:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
   })(req, res, next);
 };
 
@@ -101,7 +116,7 @@ const allUsers = async (req, res) => {
   } : {};
 
   try {
-    const profiles = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    const profiles = await User.find(keyword).find({ _id: { $ne: req?.user?._id } });
     res.status(200).json(profiles);
   } catch (error) {
     res.status(500).json({ error: error.message });

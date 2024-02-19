@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 
 const ProfileCard = ({ location,}) => {
-  const userDetails = JSON.parse(localStorage.getItem('tokenabc'));
+  const userDetails = JSON.parse(localStorage.getItem('token'));
   const [showuserInitialDetails, setShowuserInitialDetails] = useState(null)
   const member = showuserInitialDetails?.user?.updatedAt;
 const formatDate = (dateString) => {
