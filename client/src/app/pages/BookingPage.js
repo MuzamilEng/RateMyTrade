@@ -81,7 +81,7 @@ const BookingPage = () => {
                 Book Appointment
               </button>{" "}
               <>
-              <button onClick={accessChat(loggedUserId)} class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+              <button onClick={()=> accessChat(loggedUserId)} class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
                 Message
               </button>
               </>
