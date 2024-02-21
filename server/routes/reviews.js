@@ -30,4 +30,17 @@ router.post("/add-review/:id", authenticateJWT, async function(req,res){
     }
 })
 
+router.get("/get-reviews/:id", authenticateJWT, async function(req,res){
+    try {
+        const reviews = await Review.find({ tradesmanId: req.params.id });
+
+        res.status(200).json(reviews)
+    } catch (error) {
+        console.error('Error fetching reviews:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+        
+    }
+    
+})
+
 module.exports = router;

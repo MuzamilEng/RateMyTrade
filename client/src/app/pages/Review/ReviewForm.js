@@ -79,7 +79,7 @@ const ReviewForm = () => {
         setImages([]);
         setName('');
         setPostAnonymous(false);
-        navigate(`/dynamicProfile/${id}`);
+        navigate(`/profile/${id}`);
       } else {
         console.error('Error submitting review:', response.status, response.statusText);
       }
@@ -250,7 +250,7 @@ const ReviewForm = () => {
               >
                 Submit Review
               </button>
-              <Link to={`/dynamicProfile/${id}`}>
+              <Link to={`/profile/${id}`}>
                 <button
                   type="button"
                   className="text-gray-500 hover:text-gray-700"
