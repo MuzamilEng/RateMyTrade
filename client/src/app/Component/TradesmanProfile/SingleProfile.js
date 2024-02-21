@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetTrademanByIdQuery } from "../../store/storeApi";
 import Navbar from "../Common/Navbar";
 import Slider from "react-slick";
@@ -10,9 +10,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Layout from "../../Layout/Layout";
 import PinLocation from "../GoogleMap/PinLocation";
+import Reviews from "./Reviews";
 const SingleProfile = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useGetTrademanByIdQuery(id);
+  const navigate = useNavigate();
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -84,6 +86,13 @@ const SingleProfile = () => {
                 <button className="bg-transparent border-[1px] border-solid border-yellow-700 p-[0.4vw] mt-[1vw] rounded-md transition-all duration-200 hover:bg-yellow-700 hover:shadow-lg hover:text-white text-[1vw]">
                   contact me
                 </button>
+                {/* <button onClick={() =>
+                  navigate(
+                    `/tradesman/${data?._id}/review-form`
+                  )
+                } className="bg-transparent border-[1px] border-solid border-yellow-700 mx-2 p-[0.4vw] mt-[1vw] rounded-md transition-all duration-200 hover:bg-yellow-700 hover:shadow-lg hover:text-white text-[1vw]">
+                  Add a Review
+                </button> */}
               </div>
             </div>
             <div className="w-full mt-[2vw]">
@@ -132,6 +141,10 @@ const SingleProfile = () => {
             </div>
           </div>
         </main>
+        <div className="w-full mt-[2vw] p-[2vw]">
+              
+              <Reviews />
+        </div>
         <div className="  w-[100vw] pb-[3vw] mt-[5vw]">
           <Slider {...settings}>
             {arr.map((elem, i) => (

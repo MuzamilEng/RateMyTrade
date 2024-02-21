@@ -11,9 +11,10 @@ const tradesmanRoute = require('./routes/TradesMan');
 const chatRoute = require('./routes/Chat');
 const messageRoute = require('./routes/Message');
 const profileRoute = require("./routes/profileRoute")
-const bookingRoute = require("./routes/Bookings")
+const bookingRoute = require("./routes/bookings")
 const paymentRoute = require("./routes/Payments")
 const stripeRoute = require("./routes/stripeWebhook")
+const reviewRoute = require("./routes/reviews")
 const http = require('http');
 // const server = http.createServer(app);
 const Message = require('./models/Message');
@@ -56,6 +57,7 @@ app.use('/api/v1/message', messageRoute);
 app.use('/api/v1/profile', profileRoute);
 app.use('/api/v1/booking', bookingRoute);
 app.use('/api/v1/payment', paymentRoute);
+app.use('/api/v1/review', reviewRoute);
 app.use(errorHandler)
 app.use(notFound)
 // socket.io --------configuration

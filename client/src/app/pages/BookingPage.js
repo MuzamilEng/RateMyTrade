@@ -24,7 +24,7 @@ const BookingPage = () => {
                 {" "}
                 <p class="font-bold text-yellow-400 text-xl">
                   {data?.ratings}
-				  <i class="fas fa-star filled"></i>
+				          <i class="fas fa-star filled"></i>
                 </p>{" "}
                 <p class="text-gray-400">Rating</p>{" "}
               </div>{" "}
@@ -38,11 +38,11 @@ const BookingPage = () => {
             </div>{" "}
             <div class="relative">
               {" "}
-              <div class="w-48 h-48 bg-transparent mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center">
+              <div class="w-full max-w-[14vw] h-auto md:h-[14vw] bg-transparent mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center">
                 <img
-                  src={data?.image ? data?.image : "/img/man.png"}
-                  class="img-fluid w-full max-w-[14vw] rounded-full h-[14vw]"
-                  alt="User"
+                  src={data?.user?.image ? data?.user?.image : "/img/man.png"}
+                  class="img-fluid w-full max-w-[14vw] rounded-full h-auto md:h-[14vw]"
+                  alt="Users"
                 />
               </div>{" "}
             </div>{" "}
@@ -53,12 +53,12 @@ const BookingPage = () => {
                     `/tradesman/book-appointment/${data?._id}/booking-form`
                   )
                 }
-                class="text-white py-2 px-4 uppercase rounded bg-orange-400 hover:bg-orange-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                class="text-white py-2 px-4 md:w-full uppercase rounded bg-orange-400 hover:bg-orange-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
               >
                 {" "}
                 Book Appointment
               </button>{" "}
-              <button class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+              <button class="text-white py-2 px-4 md:w-full uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
                 {" "}
                 Message
               </button>{" "}
@@ -67,7 +67,9 @@ const BookingPage = () => {
           <div class="mt-20 text-center border-b pb-12">
             {" "}
             <h1 class="text-4xl font-medium text-gray-700">
-              {data?.username}
+              {data?.user?.firstName}
+              &nbsp;
+              {data?.user?.lastName}
             </h1>{" "}
             <p class="font-light text-gray-600 mt-3">{data?.tradeType}</p>{" "}
             <p class="mt-8 text-gray-500">{data?.location}</p>{" "}

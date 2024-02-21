@@ -15,6 +15,7 @@ import Navbar from './app/Component/Common/Navbar'
 import BookingForm from './app/pages/BookingForm'
 import BookingPage from './app/pages/BookingPage'
 import Checkout from './app/pages/Payment/Checkout'
+import ReviewForm from './app/pages/Review/ReviewForm'
 
 
 const App = () => {
@@ -43,6 +44,10 @@ const App = () => {
         <Route
           path="/tradesman/book-appointment/:id/checkout"
           element={<Checkout />}
+        />
+        <Route
+          path="/tradesman/:id/review-form"
+          element={<ReviewForm />}
         />
       </Routes>
     </>
