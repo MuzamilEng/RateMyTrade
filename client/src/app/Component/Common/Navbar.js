@@ -5,7 +5,9 @@ import { useGlobalContext } from '../../UserContext/UserContext'
 
 const Navbar = () => {
     const {isLogedUser} = useGlobalContext();
-    console.log(isLogedUser, "user");
+    // console.log(isLogedUser, "loged user");
+    const loggedUserId = isLogedUser?.tradesmanProfile?._id
+    // console.log(loggedUserId, "user");
   return (
     <>
     <nav className='flex items-center justify-between gap-2 p-[2vw] bg-[#e8f3df] opacity-80 sticky top-0 z-50' >
@@ -24,7 +26,13 @@ const Navbar = () => {
     </div>
         </main>
       {
-        isLogedUser ? <Link to={`/profile`}><button className='text-vw p-vw w-fit rounded-md bg-amber-500 text-white'>Dashboard</button></Link>:  <div class="flex items-center">
+        isLogedUser ?
+         <div className="flex">
+            <Link to={`/profile/${loggedUserId}`}><button className='text-vw p-vw w-fit rounded-md bg-amber-500 text-white'>Dashboard</button></Link>
+            <Link to={`/profile`}><button className='text-vw p-vw ml-2vw w-fit rounded-md bg-amber-500 text-white'>Profile</button></Link>
+
+        </div> :
+         <div class="flex items-center">
         <Link to='/login'>
             <button
             type="button"

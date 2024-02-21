@@ -102,7 +102,7 @@ const BookingForm = () => {
     if (validateForm()) {
       console.log("Form data saved:", formData);
       try {
-        const token = JSON.parse(localStorage.getItem("tokenabc"));
+        const token = JSON.parse(localStorage.getItem("token"));
         const response = await fetch(
           `http://localhost:5000/api/v1/booking/book-appointment/${id}`,
           {

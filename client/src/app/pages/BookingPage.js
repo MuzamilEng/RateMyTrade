@@ -1,8 +1,9 @@
 import React from "react";
 // import Layout from "../../Layout/Layout";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetTrademanByIdQuery } from "../store/storeApi";
+import axios from "axios";
 
 // import { useGetTrademanByIdQuery } from "../../store/storeApi";
 
@@ -10,6 +11,27 @@ const BookingPage = () => {
   const { id } = useParams();
   const { data } = useGetTrademanByIdQuery(id);
   const navigate = useNavigate();
+  const loginTokken  = JSON.parse(localStorage.getItem('token'));
+  const userToken = loginTokken?.token
+  const loggedUserId = loginTokken?.user?._id
+  const accessChat = async (userId) => {
+    console.log(userId, "chat access");
+
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      };
+      const { data } = await axios.post(`http://localhost:5000/api/v1/chat`, { userId }, config);
+      if (data){
+        navigate('/chat')
+      }
+    } catch (error) {
+      console.log(error.message, "error");
+    }
+  };
 
   return (
     <>
@@ -58,10 +80,10 @@ const BookingPage = () => {
                 {" "}
                 Book Appointment
               </button>{" "}
-              <button class="text-white py-2 px-4 md:w-full uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                {" "}
+              <button onClick={()=> accessChat(loggedUserId)} class="text-white py-2 px-4 md:w-full uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
                 Message
-              </button>{" "}
+              </button>
+              
             </div>{" "}
           </div>{" "}
           <div class="mt-20 text-center border-b pb-12">

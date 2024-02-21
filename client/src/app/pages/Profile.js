@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const {tradesManProfile,setTradesManProfile} = useGlobalContext()
-  const loggedUserId = JSON.parse(localStorage.getItem('tokenabc'));
+  const loggedUserId = JSON.parse(localStorage.getItem('token'));
   const [searchedLocation, setSearchedLocation] = useState(null)
   const navigate = useNavigate()
   const [data, setData] = useState({});
@@ -58,7 +58,7 @@ const Profile = () => {
   };
   
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const formData = new FormData();
    try{
     formData.append('userId', loggedUserId?.user._id);
@@ -74,10 +74,11 @@ const Profile = () => {
     console.log('Tradesman Profile:', tradesManProfile);
     formData.append('lat', coordinates?.lat);
     formData.append('lng', coordinates?.lng)
-    console.log(formData);
-    addTradesman(formData);
-    navigate('/usersProfile')
-    toast.success("Profile added successfully");
+    const response = await addTradesman(formData);
+    if(response?.data){
+      navigate('/usersProfile')
+      toast.success("Profile added successfully");
+    }
    }catch(err){
     // console.log(err.message)
     toast.error(err.message)

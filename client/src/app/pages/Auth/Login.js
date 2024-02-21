@@ -58,7 +58,7 @@ const Login = () => {
     const respData = await loginUser(formData);
     console.log('respData', respData?.data)
    
-      localStorage.setItem('tokenabc', JSON.stringify(respData?.data))
+      localStorage.setItem('token', JSON.stringify(respData?.data))
   
       navigate('/')
     }

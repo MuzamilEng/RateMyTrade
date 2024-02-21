@@ -24,6 +24,6 @@ const storage = multer.diskStorage({
 router.route('/signup').post(uploadFiles,signUp);
 router.route('/login').post(login);
 router.route('/getDetails').get(getUserDetails);
-router.route('/getAllUsers').get(authenticateJWT, allUsers);
+router.route('/getAllUsers').get( allUsers);
 
 module.exports = router

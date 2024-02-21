@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { useGetTrademanByIdQuery } from "../../store/storeApi";
 import Navbar from "../Common/Navbar";
 import Slider from "react-slick";
@@ -83,16 +83,11 @@ const SingleProfile = () => {
                 <p className="text-[1vw] w-full">
                 {data?.location}
                 </p>
+                <Link to="/chat">
                 <button className="bg-transparent border-[1px] border-solid border-yellow-700 p-[0.4vw] mt-[1vw] rounded-md transition-all duration-200 hover:bg-yellow-700 hover:shadow-lg hover:text-white text-[1vw]">
                   contact me
                 </button>
-                {/* <button onClick={() =>
-                  navigate(
-                    `/tradesman/${data?._id}/review-form`
-                  )
-                } className="bg-transparent border-[1px] border-solid border-yellow-700 mx-2 p-[0.4vw] mt-[1vw] rounded-md transition-all duration-200 hover:bg-yellow-700 hover:shadow-lg hover:text-white text-[1vw]">
-                  Add a Review
-                </button> */}
+                </Link>
               </div>
             </div>
             <div className="w-full mt-[2vw]">
