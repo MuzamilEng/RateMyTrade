@@ -44,6 +44,7 @@ function SideDrawer() {
 
   const logoutHandler = () => {
     localStorage.removeItem("userLoginInfo");
+    localStorage.removeItem("token");
     navigate("/");
   };
 
@@ -126,16 +127,8 @@ function SideDrawer() {
         p="5px 10px 5px 10px"
         borderWidth="5px"
       >
-        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
-            <i className="fas fa-search"></i>
-            <Text d={{ base: "none", md: "flex" }} px={4}>
-              Search User
-            </Text>
-          </Button>
-        </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans">
-          Rate-MY-Trade
+        <Text fontSize="2xl" fontStyle="italic" fontFamily="Work sans">
+          RateMyTrade
         </Text>
         <div>
           <Menu>
@@ -158,7 +151,7 @@ function SideDrawer() {
                 >
                   {notif.chat.isGroupChat
                     ? `New Message in ${notif.chat.chatName}`
-                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                    : `New Message from ${getSender(user?._id, notif.chat.users)}`}
                 </MenuItem>
               ))}
             </MenuList>
@@ -168,7 +161,7 @@ function SideDrawer() {
               <Avatar
                 size="sm"
                 cursor="pointer"
-                name={user?.username}
+                name={user?.firstName}
                 src={user?.image}
               />
             </MenuButton>

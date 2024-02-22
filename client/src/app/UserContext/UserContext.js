@@ -22,20 +22,19 @@ const [isLogedUser,setLogedUser] = useState()
   const [query,setQuery] = useState({});
   const navigate = useNavigate();
 
-  const userLoginInfo = JSON.parse(localStorage.getItem("userLoginInfo"))
-  // console.log(userLoginInfo, 'userinfo');
+  const userLoginInfo = JSON.parse(localStorage.getItem("token"))
+  console.log(userLoginInfo, "userLoginInfo");
   useEffect(() => {
-    const userInfos = JSON.parse(localStorage.getItem("userLoginInfo"));
-    const logInUser  = JSON.parse(localStorage.getItem("token"));
-    if(logInUser && logInUser !== undefined) {
-      setLogedUser(logInUser)
+    if(userLoginInfo && userLoginInfo?.user !== undefined) {
+      setLogedUser(userLoginInfo)
     }
-    setUser(userInfos);
+    setUser(userLoginInfo?.user);
     
     // if (!userInfos) navigate("/login");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
   
+  console.log(isLogedUser, "ewji");
 
   useEffect(()=> {
     setTradesmanProfileDetails(tradesmanProfileDetails)

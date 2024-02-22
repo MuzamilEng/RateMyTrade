@@ -16,7 +16,7 @@ const Form = () => {
     const queryString = new URLSearchParams(formData).toString();
 
     console.log("Serialized Query String:", queryString);
-    localStorage.setItem("query", queryString);
+    localStorage.setItem("searchTradesmanQuery", queryString);
 
     nevi("/searchUser");
   }
@@ -29,12 +29,12 @@ const Form = () => {
           Find the Best Trademen Near You
         </h1>
       </div>
-      <div className="ml-[20vw] mt-[5vw] ">
+      <div className="mt-[5vw] ml-[2vw]">
         <form className=" p-[2vw] flex items-center " onSubmit={onSubmit}>
           {advancedSearch?.map((item, index) => {
             return (
               <main className="w-full m-vw max-w-[15vw]" key={index}>
-                <label className="text-vw font-medium" htmlFor={item?.label}>{item?.label}</label>
+                <label className="text-vw font-semibold" htmlFor={item?.label}>{item?.label}</label>
                 {item?.type === "select" ? (
                   <select
                     placeholder={item?.placeholder}
@@ -50,7 +50,7 @@ const Form = () => {
                 ) : (
                   <>
                     <input
-                      type='number'
+                      type={item?.type}
                       onChange={handleQuery}
                       placeholder={item?.placeholder}
                       className="text-vw p-vw focus:outline-none w-full border-[1px] rounded-md"

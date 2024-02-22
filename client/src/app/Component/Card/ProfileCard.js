@@ -22,7 +22,7 @@ const formatDate = (dateString) => {
         <div className="w-full max-w-[10vw] h-[10vw] rounded-full mt-vw border-[1px]">
         <img src={showuserInitialDetails?.user?.image ? showuserInitialDetails?.user?.image :"/img/avatar.png"} alt={'profile image'} className='w-full h-full rounded-full' />
         </div>
-        <h1 className='font-medium text-[1vw] mt-[0.4vw]'>{ showuserInitialDetails?.user?.firstName ? showuserInitialDetails?.user?.firstName + showuserInitialDetails?.user?.lastName  : 'John Doe'}</h1>
+        <h1 className='font-medium text-[1vw] mt-[0.4vw]'>{ showuserInitialDetails?.user?.firstName ? showuserInitialDetails?.user?.firstName + " " + showuserInitialDetails?.user?.lastName  : 'John Doe'}</h1>
         <section className="w-full mt-vw flex p-vw justify-between items-center border-[1px]">
           <p className='text-vw text-gray-700'>Member Since</p>
           <p className='text-vw text-gray-700'>{member ? formatDate(member) : '2022'}</p>

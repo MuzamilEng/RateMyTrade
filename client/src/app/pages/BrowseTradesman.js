@@ -13,7 +13,7 @@ import TradesmanCard from "../Component/Card/TradesmanCard";
 import ServiceCard from "../Component/Card/ServiceCard";
 import { servicesCards } from "../Data";
 
-const ProfileCards = () => {
+const BrowseTradesman = () => {
   let { data:tradesmanProfile, isLoading, isError } = useGetAllTradesmenQuery();
 
   if (isLoading) {
@@ -22,7 +22,6 @@ const ProfileCards = () => {
   if (isError) {
     return <h1>{isError.message}</h1>;
   }
-console.log("hyby",tradesmanProfile)
   const CustomPrevArrow = (props) => (
     <span {...props} className="text-vw text-black absolute cursor-pointer top-[8vw] left-0vw z-50">
     <FontAwesomeIcon icon={faArrowLeft} className='text-2vw text-black  rounded-full hover:bg-gray-100 bg-white p-[0.7vw] text-center' />
@@ -67,4 +66,4 @@ const settings = { dots: false, prevArrow: <CustomPrevArrow />, nextArrow: <Cust
   );
 };
 
-export default ProfileCards;
+export default BrowseTradesman;

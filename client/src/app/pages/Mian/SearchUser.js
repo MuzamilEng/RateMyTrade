@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useGlobalContext } from "../../UserContext/UserContext";
 import axios from "axios";
-import { Link, useSearchParams } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import TradesmanCard from "../../Component/Card/TradesmanCard";
 
 const SearchUser = () => {
-  const { query } = useGlobalContext();
   const [arr, setArr] = useState({});
 
-  const fetchData = async (query1) => {
+  const fetchData = async (searchQuery) => {
     try {
       const result = await axios.post(
-        `http://localhost:5000/api/v1/tradesman/search?${query1}`
+        `http://localhost:5000/api/v1/tradesman/search?${searchQuery}`
       );
 
       setArr(result);
@@ -22,9 +19,9 @@ const SearchUser = () => {
     }
   };
   useEffect(() => {
-    let query1 = localStorage.getItem("query");
+    let searchQuery = localStorage.getItem("searchTradesmanQuery");
 
-    fetchData(query1);
+    fetchData(searchQuery);
   }, []);
   return (
     <div>

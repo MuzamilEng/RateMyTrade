@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './app/pages/Mian/Home'
 import About from './app/pages/Mian/About'
 import Profile from './app/pages/Profile'
-import ProfileCards from './app/pages/ProfileCards'
+import ProfileCards from './app/pages/BrowseTradesman'
 
 import SearchUser from './app/pages/Mian/SearchUser'
 import Register from './app/pages/Auth/Register'
@@ -17,6 +17,7 @@ import BookingPage from './app/pages/BookingPage'
 import Checkout from './app/pages/Payment/Checkout'
 import ReviewForm from './app/pages/Review/ReviewForm'
 import Chatpage from './app/pages/Message/Chatpage'
+import BrowseTradesman from './app/pages/BrowseTradesman'
 
 
 const App = () => {
@@ -27,7 +28,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/usersProfile' element={<ProfileCards />} />
+        <Route path='/browse-tradesman' element={<BrowseTradesman />} />
         <Route path='/profile/:id' element={<SingleProfile />} />
         <Route path='/searchUser' element={<SearchUser />} />
         <Route path='/register' element={<Register />} />

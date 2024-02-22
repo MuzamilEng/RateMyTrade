@@ -8,7 +8,7 @@ export let navData = [
     },
     {
       title:"Browse Tradesmen",
-      url:"/usersprofile"
+      url:"/browse-tradesman"
     },
     {
       title: "How it Works",
@@ -236,6 +236,12 @@ export const handymanFooter =[
   }
 
   export const advancedSearch = [
+    {
+      label: "Search By Location",
+      name: "location",
+      type: "text",
+      placeholder: "Enter Location.......",
+    },
     {
       label: "Occupation",
       name: "tradeType",

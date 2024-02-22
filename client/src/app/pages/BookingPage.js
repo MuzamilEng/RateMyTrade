@@ -80,7 +80,7 @@ const BookingPage = () => {
                 {" "}
                 Book Appointment
               </button>{" "}
-              <button onClick={()=> accessChat(loggedUserId)} class="text-white py-2 px-4 md:w-full uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+              <button onClick={()=> accessChat(data?.user?._id)} class="text-white py-2 px-4 md:w-full uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
                 Message
               </button>
               

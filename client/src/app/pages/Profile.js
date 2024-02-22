@@ -10,8 +10,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const {tradesManProfile,setTradesManProfile} = useGlobalContext()
+  const {tradesManProfile,setTradesManProfile, isLogedUser} = useGlobalContext()
   const loggedUserId = JSON.parse(localStorage.getItem('token'));
+  const tradesmanId = isLogedUser?.tradesmanProfile?._id
+
   const [searchedLocation, setSearchedLocation] = useState(null)
   const navigate = useNavigate()
   const [data, setData] = useState({});
@@ -76,7 +78,7 @@ const Profile = () => {
     formData.append('lng', coordinates?.lng)
     const response = await addTradesman(formData);
     if(response?.data){
-      navigate('/usersProfile')
+      navigate(`/profile/${tradesmanId}`)
       toast.success("Profile added successfully");
     }
    }catch(err){

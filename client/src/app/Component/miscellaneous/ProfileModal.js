@@ -18,23 +18,23 @@ const ProfileModal = ({ user, children }) => {
           <ModalHeader
             fontSize="40px"
             fontFamily="Work sans"
-            d="flex"
+            display="flex"
             justifyContent="center"
           >
-            {user?.username}
+            {user?.firstName + " " + user?.lastName}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
-            d="flex"
+            display="flex"
             flexDir="column"
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent="center"
           >
             <Image
               borderRadius="full"
               boxSize="150px"
               src={user?.image}
-              alt={user?.username}
+              alt={user?.firstName}
             />
             <Text
               fontSize={{ base: "28px", md: "30px" }}
