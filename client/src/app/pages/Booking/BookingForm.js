@@ -4,6 +4,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const BookingForm = () => {
+  const {isLogedUser} = useGlobalContext();
+  const loggedUserId = isLogedUser?.token
+  const token = JSON.parse(localStorage.getItem("token"));
+   console.log(loggedUserId, "booking transaction");
   const Background =
     "https://images.pexels.com/photos/5805491/pexels-photo-5805491.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
   const { id } = useParams();
@@ -169,7 +173,7 @@ const BookingForm = () => {
           <div className="bg-gray-100 opacity-75 p-4 mt-5 border shadow-md w-full md:w-1/2">
             <div className="col-12">
               <h3 className="fw-normal text-secondary text-lg uppercase mb-2">
-                Schedule Appointment
+                Schedule Appointment11
               </h3>
             </div>
             <form action="post" onSubmit={handleSubmit} className="space-y-3">
@@ -293,7 +297,6 @@ const BookingForm = () => {
                     } ${errors.endTime ? "border-2 border-red-500" : ""}`}
                     placeholder="Enter Time"
                   />
-                  {/* {errors.endTime && <div className="text-red-500">{errors.endTime}</div>} */}
                 </div>
                 <div className="col-span-2">
                   <label

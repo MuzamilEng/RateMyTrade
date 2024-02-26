@@ -2,18 +2,7 @@ import React, { useEffect } from 'react'
 import { tradesmanProfileForm } from '../../Data'
 import { Controller, useForm } from 'react-hook-form'
 
-const Description = ({control, handleDataChange, existingProfile}) => {
-  // const {setValue} = useForm();
-  // useEffect(() => {
-  //   // If existing profile data exists, set form fields with the existing data
-  //   if (existingProfile) {
-  //     tradesmanProfileForm?.forEach(elem => {
-  //       if (existingProfile[elem?.name]) {
-  //         setValue(elem?.name, existingProfile[elem?.name]);
-  //       }
-  //     });
-  //   }
-  // }, [existingProfile]);
+const Description = ({control, handleDataChange}) => {
   return (
     <div>
          <main className="grid grid-cols-2 p-vw">

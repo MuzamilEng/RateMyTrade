@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { toast, ToastContainer } from 'react-toastify';
+import { useForm } from 'react-hook-form';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import axios from 'axios';
-import { useUpdateTradesmanMutation } from '../../store/storeApi';
 import { useGlobalContext } from '../../UserContext/UserContext';
 
 
@@ -23,22 +20,17 @@ export const ImageInput = ({ id, name, selectedImage, handleImageChange }) => {
   );
 };
 
-const Portfolio = () => {
+const Portfolio = ({image1, image2, image3}) => {
   const {tradesManProfile,setTradesManProfile} = useGlobalContext()
-  const {id} = useParams();
   const [userInfo, setUserInfo] = useState({
     gigImage1: "", gigImage2: "", gigImage3: "",
   });
   const [selectedFileURL, setSelectedFileURL] = useState({
-    gigImage1: "", gigImage2: "", gigImage3: "",
+    gigImage1: image1 || "", gigImage2: image2 || "", gigImage3: image3 || "",
   });
-  // const {tradesManProfileId} = useGlobalContext()
-  // const id = tradesManProfileId?._id
-  console.log(id, "tr ki id");
 
   const navigate = useNavigate();
-  // const [updateTradesman] = useUpdateTradesmanMutation();
-  const {  setValue,  formState: { errors }, reset, register } = useForm({
+  const {  setValue } = useForm({
     defaultValues: {
       gigImage1: "",
       gigImage2: "",
@@ -57,55 +49,6 @@ const Portfolio = () => {
       setTradesManProfile({ ...tradesManProfile, [name]: file });
     }
   };
-  
-  const showToast = (message, type) => {
-    toast[type](message, {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-    });
-};
-
-const onSubmit = async (data, e) => {
-  e.preventDefault();
-    const formData = new FormData();
-  try {
-    // Append text data to formData
-    for (const key in data) {
-      if (data[key] !== undefined) {
-        formData.append(key, data[key]);
-      }
-    }
-    // Append image to formData
-    if (userInfo?.gigImage1) {
-      formData.append('gigImage1', userInfo?.gigImage1);
-    }
-    if (userInfo?.gigImage2) {
-      formData.append('gigImage2', userInfo?.gigImage2);
-    }
-    if (userInfo?.gigImage3) {
-      formData.append('gigImage3', userInfo?.gigImage3);
-    }
-    // Make the Axios POST request
-    const response = await axios.put(`http://localhost:5000/api/v1/tradesman/update/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    if (response.data) {
-      showToast('Successfully updated', 'success');
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000);
-    } else {
-      showToast('Failed to sign up. Please try again.', 'error');
-    }
-  } catch (error) {
-    console.error('Error during sign-up:', error);
-    showToast('An unexpected error occurred. Please try again.', 'error');
-  }
-  reset();
-};
-
   return (
     <div className="mt-vw w-full">
     <h1 className='text-[1.5vw] font-medium text-center'>Showcase Your Services In A Gallery</h1>

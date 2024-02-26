@@ -43,7 +43,7 @@ const SingleProfile = () => {
       />
     </span>
   );
-  console.log(data);
+  // console.log(data);
   const settings = {
     dots: true,
     infinite: true,

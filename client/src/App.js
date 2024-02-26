@@ -27,7 +27,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/myProfile/:id' element={<Profile />} />
         <Route path='/browse-tradesman' element={<BrowseTradesman />} />
         <Route path='/profile/:id' element={<SingleProfile />} />
         <Route path='/searchUser' element={<SearchUser />} />

@@ -23,7 +23,6 @@ const [isLogedUser,setLogedUser] = useState()
   const navigate = useNavigate();
 
   const userLoginInfo = JSON.parse(localStorage.getItem("token"))
-  console.log(userLoginInfo, "userLoginInfo");
   useEffect(() => {
     if(userLoginInfo && userLoginInfo?.user !== undefined) {
       setLogedUser(userLoginInfo)
@@ -34,7 +33,6 @@ const [isLogedUser,setLogedUser] = useState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
   
-  console.log(isLogedUser, "ewji");
 
   useEffect(()=> {
     setTradesmanProfileDetails(tradesmanProfileDetails)

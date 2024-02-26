@@ -8,7 +8,7 @@ const Navbar = () => {
     const loggedUserId = isLogedUser?.tradesmanProfile?._id
   return (
     <>
-    <nav className='flex items-center justify-between gap-2 p-[2vw] bg-[#e8f3df] opacity-80 sticky top-0 z-50' >
+    <nav className='flex items-center justify-between gap-2 p-[1vw] bg-[#e8f3df] opacity-80 sticky top-0 z-50' >
         <main className="w-full max-w-[70vw] flex items-center">
         <div className="w-full max-w-[3vw]"><img src="/img/logo.png" alt="tradesman" className='w-full' /></div>        
         <div className='ml-[4vw] flex items-start'>
@@ -26,9 +26,9 @@ const Navbar = () => {
       {
         isLogedUser ?
          <div className="flex">
-            {loggedUserId && loggedUserId !== null && <Link to={`/profile/${loggedUserId}`}><button className='text-vw p-vw w-fit rounded-md bg-amber-500 text-white'>Dashboard</button></Link>}
-            <Link to={`/profile`}><button className='text-vw p-vw ml-2vw w-fit rounded-md bg-amber-500 text-white'>Profile</button></Link>
-            <Link to={`/chat`}><button className='text-vw p-vw ml-2vw w-fit rounded-md bg-amber-500 text-white'>Messages</button></Link>
+            {loggedUserId && loggedUserId !== null && <Link to={`/profile/${loggedUserId}`}><button className='text-vw p-[0.5vw] w-fit rounded-md bg-amber-500 text-white'>Dashboard</button></Link>}
+            <Link to={`/myProfile/${loggedUserId}`}><button className='text-vw p-[0.5vw] ml-2vw w-fit rounded-md bg-amber-500 text-white'>Profile</button></Link>
+            <Link to={`/chat`}><button className='text-vw p-[0.5vw] ml-2vw w-fit rounded-md bg-amber-500 text-white'>Messages</button></Link>
 
         </div> :
          <div class="flex items-center">

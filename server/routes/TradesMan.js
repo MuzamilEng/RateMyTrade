@@ -42,7 +42,7 @@ router.route('/getAllTradesmen').get( allTradesMen);
 // Create a new letting
 
 // Update an existing letting by ID
-// router.route('/update/:id').put(uploadFiles, updateTrademanProfile);
+router.route('/update/:id').put(uploadFiles, updateTrademanProfile);
 
 // Get a letting by ID and Delete a letting by ID
 router.route('/:id').get(getTrademanProfileById).delete(deleteTrademanProfile);

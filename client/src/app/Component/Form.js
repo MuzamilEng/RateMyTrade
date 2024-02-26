@@ -12,12 +12,8 @@ const Form = () => {
 
   async function onSubmit(e) {
     e.preventDefault();
-
     const queryString = new URLSearchParams(formData).toString();
-
-    console.log("Serialized Query String:", queryString);
     localStorage.setItem("searchTradesmanQuery", queryString);
-
     nevi("/searchUser");
   }
   return (

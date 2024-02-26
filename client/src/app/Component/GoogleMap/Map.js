@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 
 const ACCESS_TOKEN = 'pk.eyJ1Ijoic3BlY25nIiwiYSI6ImNrZXg3N3dlOTA2cjgydGxieG80czFjODUifQ.WR9WrMxOGB6EdiXonbuzQQ';
 
-const Map = ({setSearchedLocation}) => {
+const Map = ({setSearchedLocation, lat, lng}) => {
   const [searchText, setSearchText] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [hideSuggestions, setHideSuggestions] = useState(false);
@@ -37,7 +37,7 @@ const Map = ({setSearchedLocation}) => {
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [-1.567857, 53.812431],
+      center: [lat ? lat : -1.567857, lng ? lng : 53.812431],
       zoom: 12.8,
     });
 
@@ -48,6 +48,7 @@ const Map = ({setSearchedLocation}) => {
     map.on('load', () => {
       // Add GeolocateControl only after the map has loaded
       map.addControl(new mapboxgl.GeolocateControl());
+      addMarker([lat, lng]);
     });
 
     const fetchSuggestions = async () => {
