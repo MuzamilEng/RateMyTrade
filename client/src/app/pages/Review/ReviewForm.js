@@ -37,36 +37,57 @@ const ReviewForm = () => {
   const handleTextReviewChange = (event) => {
     setTextReview(event.target.value);
   };
-  const handleImageUpload = (uploadedImages) => {
-    setImages(uploadedImages);
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages((prevImages) => [...prevImages, ...files]);
   };
+
+  const handleRemoveImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+
+    // Update state with removed image
+    setImages(newImages);
+
+};
+
   const handlePostAnonymousChange = () => {
     setPostAnonymous((prevValue) => !prevValue);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(images);
-    const imageUrls = images.map(image => URL.createObjectURL(image));
-    const reviewData = {
-      name,
-      overallRating,
-      featureRatings,
-      textReview,
-      imageUrls,
-      postAnonymous,
-    };
+
+
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("overallRating", overallRating);
+    formData.append("featureRatings", JSON.stringify(featureRatings));
+    formData.append("textReview", textReview);
+    formData.append("postAnonymous", postAnonymous);
+
+    images.forEach((image, index) => {
+      formData.append("images", image);
+    });
+    for (const entry of formData.entries()) {
+      console.log(entry[0], entry[1]);
+    }
     try {
       const token = JSON.parse(localStorage.getItem("tokken"));
-      const response = await fetch(`http://localhost:5000/api/v1/review/add-review/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(reviewData),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/v1/review/add-review/${id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
       if (response.ok) {
-        console.log('Review submitted successfully');
+        console.log("Review submitted successfully");
 
         setOverallRating(0);
         setFeatureRatings({
@@ -75,25 +96,28 @@ const ReviewForm = () => {
           communication: 0,
           timeliness: 0,
         });
-        setTextReview('');
+        setTextReview("");
         setImages([]);
-        setName('');
+        setName("");
         setPostAnonymous(false);
         navigate(`/profile/${id}`);
       } else {
-        console.error('Error submitting review:', response.status, response.statusText);
+        console.error(
+          "Error submitting review:",
+          response.status,
+          response.statusText
+        );
       }
     } catch (error) {
-      console.error('Error:', error.message);      
+      console.error("Error:", error.message);
     }
-  
   };
   return (
     <>
       <div
         style={{
           backgroundImage: `url(${Background})`,
-          height: "120vh",
+          height: "150vh",
           width: "100%",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
@@ -225,7 +249,38 @@ const ReviewForm = () => {
               ></textarea>
             </div>
             <div class="mb-4">
-              <ImageUpload onUpload={handleImageUpload} />
+              <label for="images" class="block mb-1">
+                Upload Images
+              </label>
+              <input
+                type="file"
+                id="images"
+                accept="image/*"
+                multiple
+                onChange={handleImageChange}
+                class="border border-gray-300 p-2 rounded"
+              />
+              <div style={{ marginTop: "10px" }}>
+                {images.map((image, index) => (
+                  <div
+                    key={index}
+                    style={{ display: "inline-block", marginRight: "10px" }}
+                  >
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt={`Uploaded ${index}`}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <button onClick={() => handleRemoveImage(index)}>
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
             <div class="flex items-center mb-4">
               <input

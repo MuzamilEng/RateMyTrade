@@ -30,6 +30,7 @@ connectDB();
 app.use(cors());
 app.use('/api/v1/payment',stripeRoute)
 app.use(express.json());
+app.use(express.static('public'));
 app.use(express.json({limit: "50mb",  extended: true}));
 app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 
