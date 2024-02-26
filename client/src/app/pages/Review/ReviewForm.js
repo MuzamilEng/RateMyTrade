@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ImageUpload from "../../Component/Rating/ImageUpload";
 
 const ReviewForm = () => {
   const { id } = useParams();
