@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useGlobalContext } from "../../UserContext/UserContext";
 
 const Reviews = () => {
   const { id } = useParams();
+  const {isLogedUser} = useGlobalContext()
+  const token = isLogedUser?.token
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem("tokken"));
+        // const token = JSON.parse(localStorage.getItem("tokken"));
         const response = await fetch(
           `http://localhost:5000/api/v1/review/get-reviews/${id}`,
           {

@@ -28,7 +28,7 @@ router.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/usersProfile',
+      success_url: 'http://localhost:3000/browse-tradesman',
       cancel_url: `http://localhost:3000/tradesman/book-appointment/${data?._id}`,
     });
     const booking = await Booking.findOne({ _id: bookingId.bookingId });

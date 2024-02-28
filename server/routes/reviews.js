@@ -38,7 +38,9 @@ router.post("/add-review/:id", authenticateJWT,upload.array('images', 5), async 
             postAnonymous: req.body.postAnonymous
         }
         console.log("New Review: ",newReview)
-        const review = new Review(newReview)
+        const featureRatings = JSON.parse(newReview.featureRatings);
+        const review = new Review({ ...newReview, featureRatings });
+        // const review = new Review(newReview)
         console.log("Review to save: ",review)
         await review.save((err) => {
             if (err) {

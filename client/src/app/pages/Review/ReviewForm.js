@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useGlobalContext } from "../../UserContext/UserContext";
 
 const ReviewForm = () => {
   const { id } = useParams();
+  const { isLogedUser } = useGlobalContext();
+  const token = isLogedUser?.token;
   const navigate = useNavigate();
   const [overallRating, setOverallRating] = useState(0);
   const [featureRatings, setFeatureRatings] = useState({
@@ -16,11 +19,22 @@ const ReviewForm = () => {
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
   const [postAnonymous, setPostAnonymous] = useState(false);
+
+  const [errors, setErrors] = useState({
+    name: "",
+    overallRating: "",
+    textReview: "",
+  });
+
   const Background =
     "https://images.pexels.com/photos/5805491/pexels-photo-5805491.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
   const handleOverallRatingChange = (rating) => {
     setOverallRating(rating);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      overallRating: "",
+    }));
   };
 
   const handleFeatureRatingChange = (feature, rating) => {
@@ -30,11 +44,20 @@ const ReviewForm = () => {
     }));
   };
 
+
   const handleNameChange = (event) => {
     setName(event.target.value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      name: "",
+    }));
   };
   const handleTextReviewChange = (event) => {
     setTextReview(event.target.value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      textReview: "",
+    }));
   };
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -47,25 +70,46 @@ const ReviewForm = () => {
 
     // Update state with removed image
     setImages(newImages);
-
-};
+  };
 
   const handlePostAnonymousChange = () => {
     setPostAnonymous((prevValue) => !prevValue);
   };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    if (name.trim() === "") {
+      newErrors.name = " ";
+      isValid = false;
+    }
+
+    if (textReview.trim() === "") {
+      newErrors.textReview = " ";
+      isValid = false;
+    }
+    if (overallRating === 0) {
+      newErrors.overallRating = "Overall Rating is required";
+      isValid = false;
+    }
+  
+    setErrors(newErrors);
+
+    return isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(images);
+    if (validateForm()) {
+      const formData = new FormData();
 
-
-
-    const formData = new FormData();
-
-    formData.append("name", name);
-    formData.append("overallRating", overallRating);
-    formData.append("featureRatings", JSON.stringify(featureRatings));
-    formData.append("textReview", textReview);
-    formData.append("postAnonymous", postAnonymous);
+      formData.append("name", name);
+      formData.append("overallRating", overallRating);
+      formData.append("featureRatings", JSON.stringify(featureRatings));
+      formData.append("textReview", textReview);
+      formData.append("postAnonymous", postAnonymous);
 
     images.forEach((image, index) => {
       formData.append("images", image);
@@ -74,7 +118,7 @@ const ReviewForm = () => {
       console.log(entry[0], entry[1]);
     }
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
+      // const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(
         `http://localhost:5000/api/v1/review/add-review/${id}`,
         {
@@ -88,27 +132,30 @@ const ReviewForm = () => {
       if (response.ok) {
         console.log("Review submitted successfully");
 
-        setOverallRating(0);
-        setFeatureRatings({
-          valueForMoney: 0,
-          qualityOfWork: 0,
-          communication: 0,
-          timeliness: 0,
-        });
-        setTextReview("");
-        setImages([]);
-        setName("");
-        setPostAnonymous(false);
-        navigate(`/profile/${id}`);
-      } else {
-        console.error(
-          "Error submitting review:",
-          response.status,
-          response.statusText
-        );
+          setOverallRating(0);
+          setFeatureRatings({
+            valueForMoney: 0,
+            qualityOfWork: 0,
+            communication: 0,
+            timeliness: 0,
+          });
+          setTextReview("");
+          setImages([]);
+          setName("");
+          setPostAnonymous(false);
+          navigate(`/profile/${id}`);
+        } else {
+          console.error(
+            "Error submitting review:",
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
       }
-    } catch (error) {
-      console.error("Error:", error.message);
+    } else {
+      console.log("Form has errors. Please correct them.");
     }
   };
   return (
@@ -130,7 +177,7 @@ const ReviewForm = () => {
           >
             <h2 class="text-2xl font-bold mb-4">Review Form</h2>
             <div class="mb-4">
-              <label for="name" class="block mb-1">
+              <label htmlFor="name" class="block mb-1">
                 Name
               </label>
               <input
@@ -138,7 +185,10 @@ const ReviewForm = () => {
                 id="name"
                 value={name}
                 onChange={handleNameChange}
-                class="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class={`w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500
+                ${errors.name ? "bg-rose-200" : ""} ${
+                  errors.name ? "border-2 border-red-500" : ""
+                }`}
               />
             </div>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -229,11 +279,18 @@ const ReviewForm = () => {
                       overallRating && value <= overallRating
                         ? "text-yellow-500"
                         : "text-gray-300"
+                    } ${
+                      errors.overallRating
+                        ? "text-red-300"
+                        : "text-gray-300"
                     }`}
                     onClick={() => handleOverallRatingChange(value)}
                   />
                 ))}
               </div>
+              {/* {errors.overallRating && (
+                <div className=" mt-1 text-red-500">{errors.overallRating}</div>
+              )} */}
             </div>
             <div class="mb-4">
               <label for="message" class="block mb-1">
@@ -244,7 +301,10 @@ const ReviewForm = () => {
                 onChange={handleTextReviewChange}
                 rows="4"
                 id="message"
-                class="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class={`w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500
+                ${errors.textReview ? "bg-rose-200" : ""} ${
+                  errors.textReview ? "border-2 border-red-500" : ""
+                }`}
               ></textarea>
             </div>
             <div class="mb-4">

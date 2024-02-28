@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { Link, useNavigate, useParams, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGlobalContext } from "../../UserContext/UserContext";
 
 const BookingForm = () => {
-  const {isLogedUser} = useGlobalContext();
-  const loggedUserId = isLogedUser?.token
-  const token = JSON.parse(localStorage.getItem("token"));
-   console.log(loggedUserId, "booking transaction");
+  // const {isLogedUser} = useGlobalContext();
+  // const loggedUserId = isLogedUser?.token
+  // const token = JSON.parse(localStorage.getItem("token"));
+  //  console.log(loggedUserId, "booking transaction");
   const Background =
     "https://images.pexels.com/photos/5805491/pexels-photo-5805491.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
   const { id } = useParams();
+  const {isLogedUser} = useGlobalContext()
+  const token = isLogedUser?.token
+  console.log(token);
   var navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -106,7 +110,7 @@ const BookingForm = () => {
     if (validateForm()) {
       console.log("Form data saved:", formData);
       try {
-        const token = JSON.parse(localStorage.getItem("token"));
+        // const token = JSON.parse(localStorage.getItem("token"));
         const response = await fetch(
           `http://localhost:5000/api/v1/booking/book-appointment/${id}`,
           {

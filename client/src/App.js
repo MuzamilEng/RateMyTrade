@@ -12,12 +12,12 @@ import Contact from './app/pages/Mian/Contact'
 import HowItWorks from './app/pages/Mian/HowItWorks'
 import SingleProfile from './app/Component/TradesmanProfile/SingleProfile'
 import Navbar from './app/Component/Common/Navbar'
-import BookingForm from './app/pages/BookingForm'
-import BookingPage from './app/pages/BookingPage'
 import Checkout from './app/pages/Payment/Checkout'
 import ReviewForm from './app/pages/Review/ReviewForm'
 import Chatpage from './app/pages/Message/Chatpage'
 import BrowseTradesman from './app/pages/BrowseTradesman'
+import BookingForm from './app/pages/Booking/BookingForm'
+import BookingPage from './app/pages/Booking/BookingPage';
 
 
 const App = () => {
