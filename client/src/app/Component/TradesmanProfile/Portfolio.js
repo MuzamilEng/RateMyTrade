@@ -79,7 +79,7 @@ const onSubmit = async (data, e) => {
       formData.append('gigImage3', userInfo?.gigImage3);
     }
     // Make the Axios POST request
-    const response = await axios.put(`http://localhost:5000/api/v1/tradesman/update/${id}`, formData, {
+    const response = await axios.put(`${process.env.REACT_APP_API}/tradesman/update/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

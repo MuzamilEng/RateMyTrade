@@ -11,7 +11,7 @@ const SearchUser = () => {
   const fetchData = async (query1) => {
     try {
       const result = await axios.post(
-        `http://localhost:5000/api/v1/tradesman/search?${query1}`
+        `${process.env.REACT_APP_API}/tradesman/search?${query1}`
       );
 
       setArr(result);
