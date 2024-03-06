@@ -18,12 +18,15 @@ import Chatpage from './app/pages/Message/Chatpage'
 import BrowseTradesman from './app/pages/BrowseTradesman'
 import BookingForm from './app/pages/Booking/BookingForm'
 import BookingPage from './app/pages/Booking/BookingPage';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const App = () => {
   return (
     <>
     {/* <Navbar /> */}
+    <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />

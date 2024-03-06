@@ -1,14 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGlobalContext } from "../../UserContext/UserContext";
-
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 const Reviews = () => {
   const { id } = useParams();
-  const {isLogedUser} = useGlobalContext()
-  const token = isLogedUser?.token
+  const { isLogedUser } = useGlobalContext();
+  const token = isLogedUser?.token;
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
-
+  
+  // const handleVote = (reviewId, voteType) => {
+  //   // Update the review data with the vote
+  //   const updatedReviews = reviews.map(review => {
+  //     if (review.id === reviewId) {
+  //       if (voteType === 'upvote') {
+  //         return { ...review, upvotes: review.upvotes + 1 };
+  //       } else if (voteType === 'downvote') {
+  //         return { ...review, downvotes: review.downvotes + 1 };
+  //       }
+  //     }
+  //     return review;
+  //   });
+  
+  //   // Update the state with the new review data
+  //   setReviews(updatedReviews);
+  // };
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -112,6 +128,20 @@ const Reviews = () => {
                                 <span key={index}>⭐</span>
                               )
                             )}
+                          </div>
+                          <div className="flex items-center mt-2">
+                            <span
+                              // onClick={() => handleVote(review._id, "upvote")}
+                              className="cursor-pointer mr-2"
+                            >
+                              <FaThumbsUp /> {review.upvotes}
+                            </span>
+                            <span
+                              // onClick={() => handleVote(review._id, "downvote")}
+                              className="cursor-pointer"
+                            >
+                              <FaThumbsDown /> {review.downvotes}
+                            </span>
                           </div>
                         </div>
                         <p className="mt-3 text-sm text-gray-700 dark:text-gray-400">

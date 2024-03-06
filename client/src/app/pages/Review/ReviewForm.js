@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGlobalContext } from "../../UserContext/UserContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import addNotification from 'react-push-notification';
+
 
 const ReviewForm = () => {
   const { id } = useParams();
@@ -25,6 +29,13 @@ const ReviewForm = () => {
     overallRating: "",
     textReview: "",
   });
+
+  const showToast = (message, type) => {
+    toast[type](message, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+    });
+  };
 
   const Background =
     "https://images.pexels.com/photos/5805491/pexels-photo-5805491.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
@@ -143,7 +154,23 @@ const ReviewForm = () => {
           setImages([]);
           setName("");
           setPostAnonymous(false);
-          navigate(`/profile/${id}`);
+
+          showToast("Review submitted successfully",'success');
+        //   addNotification({
+        //     title: 'Success',
+        //     subtitle: 'This is a subtitle',
+        //     message: 'This is a very long message',
+        //     native: true,
+        //     duration: 5000
+        // });
+          
+    
+          setTimeout(() => {
+            navigate(`/profile/${id}`);
+          }, 2000);
+
+
+          // navigate(`/profile/${id}`);
         } else {
           console.error(
             "Error submitting review:",

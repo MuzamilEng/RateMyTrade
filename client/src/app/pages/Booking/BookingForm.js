@@ -127,7 +127,10 @@ const BookingForm = () => {
           const responseData = await response.json();
           const bookingId = responseData.bookingId;
           console.log("Form data submitted successfully. Booking ID:", bookingId);
-          navigate(`/tradesman/book-appointment/${id}/checkout`, { state: {...formData, bookingId} });
+          showToast("Booking saved successfully",'success');
+          setTimeout(() => {
+            navigate(`/tradesman/book-appointment/${id}/checkout`, { state: {...formData, bookingId} });
+          }, 2000);
           // Optionally, reset the form after successful submission
           // setFormData({
           //   name: "",
@@ -177,7 +180,7 @@ const BookingForm = () => {
           <div className="bg-gray-100 opacity-75 p-4 mt-5 border shadow-md w-full md:w-1/2">
             <div className="col-12">
               <h3 className="fw-normal text-secondary text-lg uppercase mb-2">
-                Schedule Appointment11
+                Schedule Appointment
               </h3>
             </div>
             <form action="post" onSubmit={handleSubmit} className="space-y-3">
