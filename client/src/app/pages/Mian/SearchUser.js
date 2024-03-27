@@ -11,7 +11,7 @@ const SearchUser = () => {
     try {
       setIsLoading(true);
       const result = await axios.post(
-        `http://localhost:5000/api/v1/tradesman/search?${searchQuery}`
+        `${REACT_APP_API_URL}/tradesman/search?${searchQuery}`
       );
 
       setArr(result?.data);

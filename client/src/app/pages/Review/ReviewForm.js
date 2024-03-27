@@ -131,7 +131,7 @@ const ReviewForm = () => {
     try {
       // const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(
-        `http://localhost:5000/api/v1/review/add-review/${id}`,
+        `${REACT_APP_API_URL}/review/add-review/${id}`,
         {
           method: "POST",
           headers: {

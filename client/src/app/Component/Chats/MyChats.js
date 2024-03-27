@@ -27,7 +27,7 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
 
-      const { data } = await axios.get("http://localhost:5000/api/v1/chat", config);
+      const { data } = await axios.get(`${REACT_APP_API_URL}/chat`, config);
       setChats(data);
       console.log(data, 'chat created');
     } catch (error) {

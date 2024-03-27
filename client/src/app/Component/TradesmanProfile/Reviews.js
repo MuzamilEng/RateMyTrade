@@ -30,7 +30,7 @@ const Reviews = () => {
       try {
         // const token = JSON.parse(localStorage.getItem("tokken"));
         const response = await fetch(
-          `http://localhost:5000/api/v1/review/get-reviews/${id}`,
+          `${REACT_APP_API_URL}/review/get-reviews/${id}`,
           {
             method: "GET",
             headers: {

@@ -37,7 +37,7 @@ const Checkout = () => {
     const secretKey = 'sk_test_51NO0eJITaueKIebSG63NCL9BrtB8DKE3LretZtwB3ErDzj68x0yVhCVBx0RnKq9ujIposYRpeus0VeOfSBssMrV400ajOwtvCb'
     console.log(stripe);
     const response = await fetch(
-      "http://localhost:5000/api/v1/payment/create-checkout-session",
+      `${REACT_APP_API_URL}/payment/create-checkout-session`,
       {
         method: "POST",
         headers: {
@@ -65,7 +65,7 @@ const Checkout = () => {
     // const updatePaymentStatus = async (sessionID) => {
     //   try {
     //       const response = await fetch(
-    //           "http://localhost:5000/api/v1/payment/update-payment-status",
+    //           `${REACT_APP_API_URL}/payment/update-payment-status`,
     //           {
     //               method: "POST",
     //               headers: {

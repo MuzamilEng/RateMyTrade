@@ -10,7 +10,7 @@ function Chat() {
 
   useEffect(() => {
     // Load previous messages when the component mounts
-    fetch('http://localhost:5000/api/v1/messages')
+    fetch(`${REACT_APP_API_URL}/messages`)
       .then((response) => response.json())
       .then((data) => setMessages(data))
       .catch((error) => console.error('Error loading messages:', error));
