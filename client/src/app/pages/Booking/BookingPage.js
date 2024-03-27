@@ -24,7 +24,7 @@ const BookingPage = () => {
           Authorization: `Bearer ${userToken}`,
         },
       };
-      const { data } = await axios.post(`${REACT_APP_API_URL}/chat`, { userId }, config);
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/chat`, { userId }, config);
       if (data){
         navigate('/chat')
       }

@@ -69,7 +69,7 @@ function SideDrawer() {
         },
       };
 
-      const { data } = await axios.get(`${REACT_APP_API_URL}/auth/getAllUsers?search=${search}`, config);
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/auth/getAllUsers?search=${search}`, config);
       console.log(data, "data");
 
       setLoading(false);
@@ -97,7 +97,7 @@ function SideDrawer() {
           Authorization: `Bearer ${userToken}`,
         },
       };
-      const { data } = await axios.post(`${REACT_APP_API_URL}/chat`, { userId }, config);
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/chat`, { userId }, config);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);

@@ -112,7 +112,7 @@ const BookingForm = () => {
       try {
         // const token = JSON.parse(localStorage.getItem("token"));
         const response = await fetch(
-          `${REACT_APP_API_URL}/booking/book-appointment/${id}`,
+          `${process.env.REACT_APP_API_URL}/booking/book-appointment/${id}`,
           {
             method: "POST",
             headers: {
